@@ -1,0 +1,26 @@
+ort pandas as pd
+import numpy as np
+import json
+from datetime import datetime, timedelta
+import uuid
+
+def uid():
+    return str(uuid.uuid4())[:8]
+
+if 'topics' not in st.session_state:
+    st.session_state.topics = {}
+
+if 'profile' not in st.session_state:
+    st.session_state.profile = {'daily_minutes': 60, 'time_mgmt_issue': False, 'short_sessions': False}
+
+if 'plan' not in st.session_state:
+    st.session_state.plan = {}
+def compute_priority(topic, profile):
+    conf = topic.get('user_confidence', 50)
+    last_score = topic.get('last_score') or 50
+    difficulty = topic.get('difficulty', 50)
+    mismatch_boost = 30 if (topic.get('declared_strength') and last_score < 60) else 0
+    tm_boost = 10 if profile.get('time_mgmt_issue') else 0
+    return ((100 - conf) * 0.35) + ((100 - last_score) * 0.4) + (difficulty * 0.15) + mismatch_boost*0.06 + tm_boost*0.04
+def generate_plan(days=14, session_le
+

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Your Adaptive Plan</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h1 class="mb-3">🗓️ Your Adaptive Study Plan</h1>
+
+    <div class="mb-3">
+      <a href="{{ url_for('download') }}" class="btn btn-success">Download CSV</a>
+      <a href="{{ url_for('index') }}" class="btn btn-secondary">⬅️ Back</a>
+    </div>
+
+    <div class="mb-4">
+      <strong>Profile:</strong>
+      Daily minutes: {{ profile.daily_minutes }} • Days: {{ profile.days }} • Short sessions: {{ profile.time_issue }}
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Subject</th>
+          <th>Topic</th>
+          <th>Minutes</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in plan %}
+        <tr>
+          <td>{{ r.date }}</td>
+          <td>{{ r.subject }}</td>
+          <td>{{ r.topic }}</td>
+          <td>{{ r.minutes }}</td>
+          <td>{{ r.priority }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h4 class="mt-4">Topics & Priority (for transparency)</h4>
+    <table class="table table-sm">
+      <thead><tr><th>Topic</th><th>Subject</th><th>Confidence</th><th>Score</th><th>Difficulty</th><th>Priority</th></tr></thead>
+      <tbody>
+        {% for t in topics %}
+        <tr>
+          <td>{{ t.name }}</td>
+          <td>{{ t.subject }}</td>
+          <td>{{ t.confidence }}</td>
+          <td>{{ t.score }}</td>
+          <td>{{ t.difficulty }}</td>
+          <td>{{ t.priority }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+
